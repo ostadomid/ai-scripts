@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "module": "none",
+    "target": "es3",
+    "checkJs": false,
+    "noLib": true
+  }
+}
