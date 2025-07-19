@@ -25,7 +25,7 @@ function alignTopRight(subject, base) {
 
 function alignMiddleLeft(subject, base) {
   alignTopLeft(subject, base);
-  var deltaY = (base.height - subject.height)/2;
+  var deltaY = (base.height - subject.height) / 2;
   subject.translate(0, -deltaY);
 }
 function alignMiddleCenter(subject, base) {
@@ -33,7 +33,7 @@ function alignMiddleCenter(subject, base) {
 }
 function alignMiddleRight(subject, base) {
   alignTopLeft(subject, base);
-  var deltaX = (base.width - subject.width);
+  var deltaX = base.width - subject.width;
   var deltaY = (base.height - subject.height) / 2;
   subject.translate(deltaX, -deltaY);
 }
@@ -87,6 +87,9 @@ function centerFirstnamesPoemLastnames(group, template) {
     g = p.add("group");
     var bottomBtn = g.add("button", undefined, "آدرس - پایین");
     var topBtn = g.add("button", undefined, "آدرس - بالا");
+
+    g = p.add("group");
+    var hourBtn = g.add("button", undefined, "ساعت برگزاری");
 
     // Center Event Handlers
 
@@ -199,20 +202,29 @@ function centerFirstnamesPoemLastnames(group, template) {
       w.close();
     };
 
+    hourBtn.onClick = function () {
+      var subject = app.activeDocument.selection[0];
+      var destination = app.activeDocument.layers
+        .getByName("Content")
+        .pageItems.getByName("date").pageItems[4];
+      centerAInB(subject,destination)
+      destination.hidden = true;
+      w.close();
+    };
+
     //border.geometricBounds()[3] - border.geometricBounds()[1]
     w.show();
   }
 }
 
 (function () {
-  try{
-
+  try {
     const template = app.activeDocument.layers.getByName("Template");
     if (!app.selection || app.selection.length === 0) {
       alert("Select something first");
     }
     centerFirstnamesPoemLastnames(app.selection[0], template);
-  }catch(e){
-    alert("وجود لایه تمپلیت و یا آیتم بوردر الزامیست")
+  } catch (e) {
+    alert("وجود لایه تمپلیت و یا آیتم بوردر الزامیست");
   }
 })();
