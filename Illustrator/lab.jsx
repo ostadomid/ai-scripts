@@ -36,7 +36,7 @@ function findBorder(template) {
       max = rectGuides[index];
     }
   }
-  alert(rectGuides.length);
+  // alert(rectGuides.length);
   max.e.name = "border";
 }
 

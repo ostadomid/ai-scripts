@@ -38,7 +38,7 @@ function centerAInB(a,b){
 }
 
 function resetDate(dateDocument) {
-  var layers = ["وسط - روز", "راست - روز", "راست - ساعت", "آدرسها"];
+  var layers = ["وسط - روز", "راست - روز", "راست - ساعت", "آدرسها","وسط - ماه"];
 
   for (var i = 0; i < layers.length; i++) {
     var pageItems = dateDocument.layers.getByName(layers[i]).pageItems;
@@ -93,6 +93,15 @@ function duplicateDateAsGroup(From, To) {
     "پنجشنبه",
     "جمعه",
   ];
+  var MONTHS=[
+    "شهریور",
+    "مهر",
+    "آبان",
+    "آذر",
+    "دی",
+    "بهمن",
+    "اسفند",
+  ]
   var DAYS_NUMBER = [];
   for (var i = 1; i < 32; i++) {
     DAYS_NUMBER.push(i);
@@ -117,6 +126,7 @@ function duplicateDateAsGroup(From, To) {
 
   var PLACES = [
     "خالی",
+    "آلب ارسلاان",
     "آقاجون",
     "اشرافی - بلند",
     "اشرافی - کوتاه",
@@ -253,6 +263,14 @@ function duplicateDateAsGroup(From, To) {
   place.selection = PLACES[0];
   g.add("statictext", undefined, "مکان");
 
+  var hour = g.add("dropdownlist", undefined, HOURS);
+  hour.selection = HOURS[0];
+  g.add("statictext", undefined, "ساعت");
+
+  var month = g.add("dropdownlist", undefined, MONTHS);
+  month.selection = MONTHS[0];
+  g.add("statictext", undefined, "ماه");
+
   var dayNumber = g.add("dropdownlist", undefined, DAYS_NUMBER);
   dayNumber.selection = 0;
   g.add("statictext", undefined, "چندم");
@@ -261,9 +279,7 @@ function duplicateDateAsGroup(From, To) {
   day.selection = DAYS[0];
   g.add("statictext", undefined, "روز");
 
-  var hour = g.add("dropdownlist", undefined, HOURS);
-  hour.selection = HOURS[0];
-  g.add("statictext", undefined, "ساعت");
+ 
 
   var btn = p.add("button", undefined, "ایجاد");
 
@@ -288,6 +304,9 @@ function duplicateDateAsGroup(From, To) {
       dateDocument.layers
         .getByName("آدرسها")
         .pageItems.getByName(String(place.selection)).hidden = false;
+      dateDocument.layers
+      .getByName("وسط - ماه")
+      .pageItems.getByName(String(month.selection)).hidden = false;
     }
     duplicateDateAsGroup(dateDocument, currentDocument);
     resetDate(dateDocument);
