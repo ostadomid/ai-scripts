@@ -58,6 +58,17 @@ function alignBottomRight(subject, base) {
   subject.translate(deltaX, -deltaY);
 }
 
+function centerUpDown(subject,base){
+  var lastX = subject.left;
+  alignMiddleLeft(subject,base);
+  subject.left = lastX;
+}
+function centerLeftRight(subject,base){
+  var lastY = subject.top;
+  alignTopCenter(subject,base);
+  subject.top = lastY;
+}
+
 function centerFirstnamesPoemLastnames(group, template) {
   if (group) {
     const border = template.pageItems.getByName("border");
@@ -90,6 +101,11 @@ function centerFirstnamesPoemLastnames(group, template) {
 
     g = p.add("group");
     var hourBtn = g.add("button", undefined, "ساعت برگزاری");
+
+    p = w.add("panel",undefined,"ترازبندی یکطرفه");
+    g = p.add("group");
+    var btnUpDown = g.add("button",undefined,"↕")
+    var btnLeftRight = g.add("button",undefined,"↔")
 
     // Center Event Handlers
 
@@ -131,6 +147,15 @@ function centerFirstnamesPoemLastnames(group, template) {
       alignBottomRight(group, border);
       w.close();
     };
+
+    btnUpDown.onClick = function(){
+      centerUpDown(group,border);      
+      w.close();
+    }
+    btnLeftRight.onClick = function(){
+      centerLeftRight(group,border);
+      w.close();
+    }
 
     // leftBtn.onClick = function () {
     //   group.translate(
