@@ -5,9 +5,24 @@ function centerAInB(a, b) {
 
   a.translate(deltaX, -deltaY);
 }
+function alignTopLeft(subject, base) {
+  subject.translate(
+    base.position[0] - subject.position[0],
+    base.position[1] - subject.position[1]
+  );
+}
+function alignMiddleRight(subject, base) {
+  alignTopLeft(subject, base);
+  var deltaX = base.width - subject.width;
+  var deltaY = (base.height - subject.height) / 2;
+  subject.translate(deltaX, -deltaY);
+}
 
 
 (function () {
+  // Globals
+
+
   var template = app.activeDocument.layers.getByName("Template");
   var content = app.activeDocument.layers.getByName("Content");
 
@@ -36,13 +51,13 @@ function centerAInB(a, b) {
     contentHozoorMazar = content.pageItems[L - 8];
   }
 
-  contentMotovafa.resize(112,112);
-  contentMonasebat.resize(75,75);
-  contentWhen.resize(65,65);
-  contentTashakkor.resize(65,65);
+  contentMotovafa.resize(120,120);
+  contentMonasebat.resize(80,80);
+  contentWhen.resize(80,80);
+  contentTashakkor.resize(80,80);
   contentKhanevade.resize(95,95);
-  contentAramestan.resize(65,65);
-  contentTalar.resize(65,65);
+  contentAramestan.resize(72,72);
+  contentTalar.resize(72,72);
   
 
   centerAInB(contentMotovafa, motovafa);
@@ -60,14 +75,14 @@ function centerAInB(a, b) {
   centerAInB(contentKhanevade, khanevade);
   khanevade.hidden=true;
   
-  centerAInB(contentAramestan, aramestan);
+  alignMiddleRight(contentAramestan, aramestan);
   aramestan.hidden=true;
   
-  centerAInB(contentTalar, talar);
+  alignMiddleRight(contentTalar, talar);
   talar.hidden=true;
   
   if(contentHozoorMazar){
-    contentHozoorMazar.resize(62,62);
+    contentHozoorMazar.resize(68,68);
     centerAInB(contentHozoorMazar, hozoorMazar);
   }
   hozoorMazar.hidden=true;
