@@ -106,6 +106,20 @@ function centerFirstnamesPoemLastnames(group, template) {
     g = p.add("group");
     var btnUpDown = g.add("button",undefined,"↕")
     var btnLeftRight = g.add("button",undefined,"↔")
+    
+    p = w.add("panel",undefined,"ترازبندی چسبان");
+    g = p.add("group");
+    g.alignChildren="center"
+    var btnZeroTop = g.add("button",undefined,"⬆")
+    
+    g = p.add("group");
+    var btnZeroLeft = g.add("button",undefined,"⬅")
+    var btnZeroRight = g.add("button",undefined,"➡")
+    
+    g = p.add("group");
+    g.alignChildren="center"
+    var btnZeroDown = g.add("button",undefined,"⬇")
+    
 
     // Center Event Handlers
 
@@ -236,6 +250,33 @@ function centerFirstnamesPoemLastnames(group, template) {
       destination.hidden = true;
       w.close();
     };
+
+    // کلید های تراز چسبان
+    btnZeroLeft.onClick = function(){
+      var originalTop = group.top;
+      alignMiddleLeft(group,border);
+      group.top = originalTop;
+      w.close();
+    }
+    btnZeroRight.onClick = function(){
+      var originalTop = group.top;
+      alignMiddleRight(group,border);
+      group.top = originalTop;
+      w.close();
+    }
+
+    btnZeroTop.onClick = function(){
+      var originalLeft = group.left;
+      alignTopCenter(group,border);
+      group.left = originalLeft;
+      w.close();
+    }
+    btnZeroDown.onClick = function(){
+      var originalLeft = group.left;
+      alignBottomCenter(group,border);
+      group.left = originalLeft;
+      w.close();
+    }
 
     //border.geometricBounds()[3] - border.geometricBounds()[1]
     w.show();
