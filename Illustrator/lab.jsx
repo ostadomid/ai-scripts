@@ -57,16 +57,16 @@ g = p.add("group");
 g.alignment = "fill";
 g.alignChildren = "fill";
 
-g.add("statictext", undefined, "Border W=");
+g.add("statictext", undefined, "Card W=");
 var widthText = g.add("edittext");
 widthText.characters = 5;
 
-g.add("statictext", undefined, "Border H=");
+g.add("statictext", undefined, "Card H=");
 var heightText = g.add("edittext");
 heightText.characters = 5;
 
-g.add("statictext", undefined, "Shrinked (cm)=");
-var shrinkText = g.add("edittext", undefined, "1");
+g.add("statictext", undefined, "Each Side Shrink (cm)=");
+var shrinkText = g.add("edittext", undefined, "0.5");
 shrinkText.characters = 3;
 
 g = p.add("group");
@@ -85,19 +85,19 @@ btnCreateBorder.onClick = function () {
   }
 
   // Desired rectangle size
-  var rectWidth = cmToPt(Number(widthText.text));
-  var rectHeight = cmToPt(Number(heightText.text));
-  var offset = cmToPt(Number(shrinkText.text) / 2);
+  var rectWidth = cmToPt(Number(widthText.text) - 2 * Number(shrinkText.text));
+  var rectHeight = cmToPt(
+    Number(heightText.text) - 2 * Number(shrinkText.text)
+  );
+  var offset = cmToPt(Number(shrinkText.text));
 
   // Bottom-right corner of the artboard
   var right = abBounds[2]; // x
   var bottom = abBounds[3]; // y
-  
-  
+
   var top = bottom + rectHeight + offset;
   var left = right - rectWidth - offset;
-  
-  
+
   // Define corner points (clockwise)
   var points = [
     [left, top], // top-left
@@ -105,7 +105,7 @@ btnCreateBorder.onClick = function () {
     [left + rectWidth, top - rectHeight], // bottom-right
     [left, top - rectHeight], // bottom-left
   ];
-  
+
   // Create editable path
 
   var guidePath = template.pathItems.add();
@@ -113,9 +113,9 @@ btnCreateBorder.onClick = function () {
   guidePath.closed = true;
   guidePath.filled = false;
   guidePath.stroked = true;
-  guidePath.name="border";
-  guidePath.guides=true;
-  
+  guidePath.name = "border";
+  guidePath.guides = true;
+
   w.close();
 };
 
