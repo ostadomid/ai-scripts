@@ -2,17 +2,16 @@
   var configFile = File(Folder.myDocuments + "//config.txt");
   configFile.encoding = "UTF-8";
   configFile.open("r");
-  var config = {poems:"",date:""};
+  var config = { poems: "", date: "" };
   config.poems = configFile.readln();
   config.date = configFile.readln();
-  configFile.close();  
+  configFile.close();
   return config;
 }
 
-
 function insertPoem(where) {
   var config = getConfig();
-  var poemsFile = File(config.poems)
+  var poemsFile = File(config.poems);
   if (poemsFile.exists) {
     const poems = app.open(poemsFile);
     $.sleep(1000);
@@ -26,19 +25,22 @@ function insertPoem(where) {
   }
 }
 
-function centerAInB(a,b){
-  a.translate(
-        b.position[0] - a.position[0],
-        b.position[1] - a.position[1]
-      );
-      var deltaX = (b.width - a.width)/2
-      var deltaY = (b.height - a.height)/2
-            
-      a.translate(deltaX, -deltaY)
+function centerAInB(a, b) {
+  a.translate(b.position[0] - a.position[0], b.position[1] - a.position[1]);
+  var deltaX = (b.width - a.width) / 2;
+  var deltaY = (b.height - a.height) / 2;
+
+  a.translate(deltaX, -deltaY);
 }
 
 function resetDate(dateDocument) {
-  var layers = ["وسط - روز", "راست - روز", "راست - ساعت", "آدرسها","وسط - ماه"];
+  var layers = [
+    "وسط - روز",
+    "راست - روز",
+    "راست - ساعت",
+    "آدرسها",
+    "وسط - ماه",
+  ];
 
   for (var i = 0; i < layers.length; i++) {
     var pageItems = dateDocument.layers.getByName(layers[i]).pageItems;
@@ -87,21 +89,13 @@ function duplicateDateAsGroup(From, To) {
   var DAYS = [
     "شنبه",
     "یکشنبه",
-    "دوشنبه",
+    "دو شنبه",
     "سه شنبه",
     "چهارشنبه",
     "پنجشنبه",
     "جمعه",
   ];
-  var MONTHS=[
-    "شهریور",
-    "مهر",
-    "آبان",
-    "آذر",
-    "دی",
-    "بهمن",
-    "اسفند",
-  ]
+  var MONTHS = ["شهریور", "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"];
   var DAYS_NUMBER = [];
   for (var i = 1; i < 32; i++) {
     DAYS_NUMBER.push(i);
@@ -135,6 +129,8 @@ function duplicateDateAsGroup(From, To) {
     "بعثت",
     "بهاران",
     "بهشت",
+    "پارس",
+    "پایتخت",
     "تشریفات - بلند",
     "تشریفات - کوتاه",
     "خورشید",
@@ -146,6 +142,8 @@ function duplicateDateAsGroup(From, To) {
     "فجر",
     "فرشتگان",
     "فردوسی",
+    "فرهنگیان 2",
+    "فرهنگیان 3",
     "فردوسی - عشق آباد",
     "فیروزه",
     "قصر طلایی",
@@ -156,8 +154,6 @@ function duplicateDateAsGroup(From, To) {
     "هتل امیران",
     "وصال",
     "ولیعصر",
-    "پارس",
-    "پایتخت",
   ];
 
   const content = app.activeDocument.layers.getByName("Content");
@@ -196,7 +192,7 @@ function duplicateDateAsGroup(From, To) {
   // TODO: Show a dialog asking user for auto algining firstNames, lastNames & phone
 
   //Check If Conten has required Items
-  if(!contentFirstnames || !contentLastnames ){
+  if (!contentFirstnames || !contentLastnames) {
     alert("باید اطلاعات عروس و داماد در لایه کانتنت موجود باشد");
     return;
   }
@@ -215,9 +211,9 @@ function duplicateDateAsGroup(From, To) {
       // );
       // var deltaX = (firstNames.width - contentFirstnames.width)/2
       // var deltaY = (firstNames.height - contentFirstnames.height)/2
-            
+
       // contentFirstnames.translate(deltaX, -deltaY)
-      centerAInB(contentFirstnames,firstNames);
+      centerAInB(contentFirstnames, firstNames);
       firstNames.hidden = true;
     }
     if (lastNames) {
@@ -227,15 +223,15 @@ function duplicateDateAsGroup(From, To) {
       // );
       // var deltaX = (lastNames.width - contentLastnames.width)/2
       // var deltaY = (lastNames.height - contentLastnames.height)/2
-            
+
       // contentLastnames.translate(deltaX, -deltaY)
-      centerAInB(contentLastnames,lastNames)
+      centerAInB(contentLastnames, lastNames);
       lastNames.hidden = true;
     }
     if (hasPhone) {
       // contentPhone.top = phone.top + phone.height / 2 - contentPhone.height / 2;
       // contentPhone.left = phone.left + phone.width / 2 - contentPhone.width / 2;
-      centerAInB(contentPhone,phone)
+      centerAInB(contentPhone, phone);
 
       phone.hidden = true;
     } else {
@@ -251,7 +247,7 @@ function duplicateDateAsGroup(From, To) {
   // contentPoem.top = templatePoem.top;
   // contentPoem.left =
   //   templatePoem.left + templatePoem.width / 2 - contentPoem.width / 2;
-  centerAInB(contentPoem,poem)
+  centerAInB(contentPoem, poem);
   poem.hidden = true;
 
   // Insert Minimal Date
@@ -280,8 +276,6 @@ function duplicateDateAsGroup(From, To) {
   day.selection = DAYS[0];
   g.add("statictext", undefined, "روز");
 
- 
-
   var btn = p.add("button", undefined, "ایجاد");
 
   btn.onClick = function () {
@@ -289,7 +283,6 @@ function duplicateDateAsGroup(From, To) {
     var content = currentDocument.layers.getByName("Content");
     var template = currentDocument.layers.getByName("Template");
 
-    
     var dateDocumentSrc = new File(getConfig().date);
     if (dateDocumentSrc.exists) {
       var dateDocument = app.open(dateDocumentSrc);
@@ -306,8 +299,8 @@ function duplicateDateAsGroup(From, To) {
         .getByName("آدرسها")
         .pageItems.getByName(String(place.selection)).hidden = false;
       dateDocument.layers
-      .getByName("وسط - ماه")
-      .pageItems.getByName(String(month.selection)).hidden = false;
+        .getByName("وسط - ماه")
+        .pageItems.getByName(String(month.selection)).hidden = false;
     }
     duplicateDateAsGroup(dateDocument, currentDocument);
     resetDate(dateDocument);
@@ -318,7 +311,7 @@ function duplicateDateAsGroup(From, To) {
     // contentDate.top = templateDate.top;
     // contentDate.left =
     //   templateDate.left + templateDate.width / 2 - contentDate.width / 2;
-    centerAInB(contentDate,date)
+    centerAInB(contentDate, date);
     date.hidden = true;
 
     w.close(0);
